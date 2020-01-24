@@ -39,7 +39,7 @@ namespace APOD
             // TODO: show MessageBox error message if date entered is not valid
         }
 
-        private void getAPOD(DateTime date)
+        private void GetAPOD(DateTime date)
         {
             // Clear current image and text, and disable form 
             ClearForm();
