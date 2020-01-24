@@ -96,7 +96,7 @@
             this.lblDate.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblDate.Location = new System.Drawing.Point(12, 554);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(196, 52);
+            this.lblDate.Size = new System.Drawing.Size(263, 52);
             this.lblDate.TabIndex = 5;
             // 
             // lblCredits
@@ -105,9 +105,9 @@
             this.lblCredits.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCredits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.lblCredits.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblCredits.Location = new System.Drawing.Point(559, 554);
+            this.lblCredits.Location = new System.Drawing.Point(525, 554);
             this.lblCredits.Name = "lblCredits";
-            this.lblCredits.Size = new System.Drawing.Size(229, 52);
+            this.lblCredits.Size = new System.Drawing.Size(263, 52);
             this.lblCredits.TabIndex = 6;
             this.lblCredits.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
