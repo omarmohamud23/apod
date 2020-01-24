@@ -45,7 +45,7 @@ namespace APOD
             ClearForm();
             EnableForm(false);
 
-            // If there is not a request in progress, start fetching photo for date 
+            // If a request is not in progress, start fetching photo for date 
             // Long-running tasks should be delegated to background workers, otherwise user interface
             // will freeze or be unresponsive while request is in progress
             if (apodBackgroundWorker.IsBusy == false)
