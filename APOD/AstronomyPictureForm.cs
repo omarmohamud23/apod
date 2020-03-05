@@ -16,29 +16,61 @@ namespace APOD
         private void Form1_Load(object sender, EventArgs e)
         {
             // TODO: Set the text in the date TextBox to today's date,
-            // formatted as MM/DD/YYYY           
+            // formatted as MM/DD/YYYY      
+            DateTime today = DateTime.Today;
+            txtDate.Text = $"{today:d}";
         }
 
         private void btnGetToday_Click(object sender, EventArgs e)
         {
             // TODO: Request the APOD picture for today
+
+            //Create a Datetime that represents today
+            DateTime today = DateTime.Today;
+
+
+            //start a request for r=todays APOD picture
+            GetAPOD(DateTime.Today);
         }
 
         private void btnGetForDate_Click(object sender, EventArgs e)
         {
+            try
+            {
 
-            //TODO: Attempt to convert text in txtDate into a DateTime
 
-            //TODO: Make sure the date is today or in the past
+                //TODO: Attempt to convert text in txtDate into a DateTime
+                DateTime date = DateTime.Parse(txtDate.Text);
 
-            //TODO: And make sure date is June 16, 1995 or later, the date APOD service started
+                // Make sure the date is today or in the past
+                if (date > DateTime.Today)
+                {
+                    //Throw FormatException, to be caught in the catch block below
+                    throw new FormatException("Date can`t be in the future");
+                }
 
-            //TODO: If date is a DateTime and within the allowed date range, 
-            //  request APOD picture for this date 
+                // And make sure date is June 16, 1995 or later, the date APOD service started
+                if (date < new DateTime(1995, 06, 16))
+                {
+                    //also to be caught by, and handlded by, the catch block
+                    throw new FormatException("Date can`t be before June 16 1995");
+                }
 
-            // TODO: show MessageBox error message if date entered is not valid
+                //TODO: If date is a DateTime and within the allowed date range, 
+                //  request APOD picture for this date 
+                GetAPOD(date);
+            }
+            catch (FormatException err)
+            {
+                MessageBox.Show(err.Message, "Invalid date");
+            }
         }
 
+
+
+       
+      
+      
         private void GetAPOD(DateTime date)
         {
             // Clear current image and text, and disable form 
@@ -58,12 +90,53 @@ namespace APOD
             }
         }
 
+        private void LoadImageResponseIntoForm(APODResponse apodResponse)
+        {
+            //show title
+            lblTitle.Text = apodResponse.Title;
+
+            //format and show image credits
+            lblCredits.Text = $"Image credit;  {apodResponse.Copyright}";
+
+
+            //convert date string from response which is in the form yyy-mm-dd, 
+            //into a Datetime, so it can be formatted and dsiplayed
+            DateTime date = DateTime.Parse(apodResponse.Date);
+            string formattedDate = $"{date:D}";
+            lblDate.Text = formattedDate;
+
+            //show explanation text
+            lblDescription.Text = apodResponse.Explanation;
+
+            //load picture, handle any image loading errors
+            try
+            {
+                picAstronomyPicture.Image = Image.FromFile(apodResponse.FileSavePath);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error Loading Image saved for {apodResponse}'\n'{e.Message}");
+            }
+        }
 
         private void HandleResponse(APODResponse apodResponse, string error)
         {
             // TODO: if there is an error from the request, show a MessageBox 
+            if (error != null)
+            {
+                MessageBox.Show(error, "Error");
+                return;
+            }
 
             // TODO: Make sure response is an image (not a video or other media type) 
+            if (apodResponse.MediaType.Equals("image"))
+            {
+                LoadImageResponseIntoForm(apodResponse);
+            }
+            else
+            {
+                MessageBox.Show($"The Response is not an image . Please try another date.", "Sorry");
+            }
 
             // TODO: If there are no errors, and the response is an image, call a method 
             //  (that you'll create) to display the info in the form
